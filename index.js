@@ -13,6 +13,13 @@ const getCacheAsync = promisify(cache.get).bind(cache);
 const setCacheAsync = promisify(cache.set).bind(cache);
 const fahrenheitToCelsius = require('fahrenheit-to-celsius');
 
+
+const overrideCountryCity = Object.freeze({
+    China: 'Wuhan',
+    Philippines: 'Manila',
+    "Czech Republic": "Prague"
+})
+
 const getValue = async (key) => {
     const data = await getCacheAsync(key);
     if (!data) {
@@ -105,9 +112,9 @@ const getCapitalAverageTemperatureFebrurary = async ({ longitude, latitude, capi
     return [averageTemp, averageHumid];
 }
 
-const processCountry = async ({ country, city, totalCases }, data) => {
+const processCountry = async ({ country, totalCases }, data) => {
     try {
-        let capital = city;
+        let capital = overrideCountryCity[country];
 
         if (!capital) {
             const countryData = wcc.getCountryDetailsByName(country);
@@ -138,7 +145,7 @@ const parseData = () => {
         const countries = {};
         let idx = 0;
         fs.createReadStream('full_data.csv')
-            .pipe(csv.parse({ delimiter: ";" }))
+            .pipe(csv.parse())
             .on('data', (row) => {
                 if (idx++ === 0) {
                     return;
