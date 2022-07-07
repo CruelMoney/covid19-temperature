@@ -7,7 +7,7 @@
     "csv": "^5.3.2",
     "csv-writer": "^1.6.0",
     "fahrenheit-to-celsius": "^1.0.0",
-    "moment": "^2.24.0",
+    "moment": "^2.29.4",
     "node-fetch": "^2.6.0",
     "node-geocoder": "^3.25.0",
     "openweather-apis": "^4.2.0",
